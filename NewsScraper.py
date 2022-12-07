@@ -2,6 +2,7 @@ import re
 import time
 import requests
 from urllib.request import urlopen
+from prettytable import PrettyTable
 
 #time script started
 timestart = time.time()
@@ -21,7 +22,6 @@ html2 = page.text
 
 # Reged patterns
 HNtitlepattern = "<h2 class='home-title'>.+<\/h2>"
-HNdatetitlepattern = "<\/i>.*<span>"
 HNlinktitlepattern = "<a class='story-link'.*>"
 PStitlepattern = '<span class="main">.+<\/span>'
 PSdatetitlepattern = '<span class="sub">((.|\n)+?)<\/span>'
@@ -32,7 +32,6 @@ BClinktitlepattern = '<a href="https:\/\/www.bleepingcomputer.com\/.*class="nmic
 
 # Finds matches and creates list
 HNtitlematches = re.findall(HNtitlepattern, html, re.IGNORECASE)
-HNdatetitlematches = re.findall(HNdatetitlepattern, html, re.IGNORECASE)
 HNlinktitlematches = re.findall(HNlinktitlepattern, html, re.IGNORECASE)
 PStitlematches = re.findall(PStitlepattern, html1, re.IGNORECASE)
 PSdatetitlematchces = re.findall(PSdatetitlepattern, html1, re.IGNORECASE)
@@ -58,18 +57,13 @@ HNstrippedlinktitle = []
 for title in HNtitlematches:
     HNstrippedtitle.append(re.sub("<.*?>", "", title))
 
-for title in HNdatetitlematches:
-    HNstrippeddatetitle.append(re.sub("<.*?>", "", title))
-
 for title in HNlinktitlematches:
     HNstrippedlinktitle.append(str(title)[28:-2])
 
-a = 0
+a=0
 while a < len(HNstrippedtitle):
     f.write("\n")
     f.write(HNstrippedtitle[a])
-    f.write('\n')
-    f.write(HNstrippeddatetitle[a])
     f.write('\n')
     f.write(HNstrippedlinktitle[a])
     f.write('\n')
